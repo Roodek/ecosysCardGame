@@ -1,4 +1,6 @@
-package game;
+package game.board;
+
+import game.Move;
 
 import java.util.List;
 

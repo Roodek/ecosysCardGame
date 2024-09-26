@@ -1,10 +1,9 @@
 package unit;
 
 
-import game.Board;
+import game.board.Board;
 import game.cards.*;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
