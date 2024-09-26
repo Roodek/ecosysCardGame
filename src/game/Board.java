@@ -150,9 +150,4 @@ public class Board {
         }
     }
 
-//    private Integer countFinalPoints(){
-//        return cards.stream().map(Card::count).reduce(0, Integer::sum);
-//    }
-
-
 }
