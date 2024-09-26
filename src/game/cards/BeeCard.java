@@ -1,4 +1,7 @@
 package game.cards;
 
-public class BeeCard {
+public class BeeCard extends BasicCard implements Card {
+    public BeeCard() {
+        super(CardType.BEE);
+    }
 }
