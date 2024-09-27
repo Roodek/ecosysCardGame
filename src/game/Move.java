@@ -5,6 +5,6 @@ import game.cards.Card;
 import java.util.List;
 
 public record Move(
-        Card card,
-        List<Card.CardSide> availableSides
+        int coordX,
+        int coordY
 ){}
