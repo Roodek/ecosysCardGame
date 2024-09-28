@@ -7,7 +7,6 @@ import game.cards.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -100,6 +99,8 @@ public class BoardAvailableMoveCalculatorTest {
                 new Move(4,3)
         );
 
-        assertEquals(expectedAvailableMoves,calculator.getAvailableMoves());
+        var availableMoves = calculator.getAvailableMoves();
+        assertEquals(expectedAvailableMoves.size(),availableMoves.size());
+        assertEquals(expectedAvailableMoves,availableMoves);
     }
 }
