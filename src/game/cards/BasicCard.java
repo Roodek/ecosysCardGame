@@ -1,15 +1,11 @@
 package game.cards;
 
-import game.Slot;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
 public abstract class BasicCard implements Card{
-
-    int coordX;
-    int coordY;
     CardType type;
     Card upperNeighbour;
     Card bottomNeighbour;

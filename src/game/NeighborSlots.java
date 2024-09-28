@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public class Neighbors{
+public class NeighborSlots {
     Slot topNeighbour;
     Slot bottomNeighbour;
     Slot leftNeighbour;

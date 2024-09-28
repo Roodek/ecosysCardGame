@@ -2,6 +2,7 @@ package game.board;
 
 import game.Slot;
 import game.cards.Card;
+import game.utils.BoardSlotProcessor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -90,9 +91,7 @@ public class Board {
     }
     private void checkIfMaxHorizontalAndCutBoardTo4x5() {
         if(sizeHorizontal== maxHorizontalSize) {
-            for (int i=0;i<cardBoard.size();i++){
-                cardBoard.set(i,new ArrayList<>(cardBoard.get(i).subList(1, maxHorizontalSize + 1)));
-            }
+            cardBoard.replaceAll(cards -> new ArrayList<>(cards.subList(1, maxHorizontalSize + 1)));
             maxVerticalSize = 4;
         }
     }
@@ -122,6 +121,10 @@ public class Board {
         }
     }
 
+    public void assignNeighbours(){
+        var assignNeighboursStrategy = new AssignNeighboursToCardsStrategy(this);
+        BoardSlotProcessor.iterateOverBoardEntriesAndApplyStrategy(cardBoard,assignNeighboursStrategy);
+    }
     public int finalPointCount()
     {
         return cardBoard.stream()

@@ -1,6 +1,6 @@
 package game.utils;
 
-import game.Neighbors;
+import game.NeighborSlots;
 import game.Slot;
 import game.board.ProcessSlotStrategy;
 import game.cards.Card;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class BoardSlotProcessor {
 
-    public static void iterateOverBoardEntries(ArrayList<ArrayList<Card>> board, ProcessSlotStrategy strategy) {
+    public static void iterateOverBoardEntriesAndApplyStrategy(ArrayList<ArrayList<Card>> board, ProcessSlotStrategy strategy) {
         if(!board.isEmpty()) {
             for(int x =0;x<board.size();x++){
                 for(int y = 0;y<board.get(x).size();y++){
@@ -19,8 +19,8 @@ public class BoardSlotProcessor {
         }
     }
 
-    private static Neighbors getNeighbours(ArrayList<ArrayList<Card>> board, int x, int y){
-        var neighbours = new Neighbors();
+    private static NeighborSlots getNeighbours(ArrayList<ArrayList<Card>> board, int x, int y){
+        var neighbours = new NeighborSlots();
         if(isLeftUpperCorner(board, x, y)){
             addRightSlot(x, y, neighbours);
             addBottomSlot(x, y, neighbours);
@@ -95,17 +95,17 @@ public class BoardSlotProcessor {
         return x == 0 && y == 0;
     }
 
-    private static void addBottomSlot(int x, int y, Neighbors availableSlots) {
+    private static void addBottomSlot(int x, int y, NeighborSlots availableSlots) {
             availableSlots.setBottomNeighbour(new Slot(x+1, y ));
     }
 
-    private static void addRightSlot(int x, int y, Neighbors availableSlots) {
+    private static void addRightSlot(int x, int y, NeighborSlots availableSlots) {
             availableSlots.setRightNeighbour(new Slot(x, y+1));
     }
-    private static void addTopSlot(int x, int y, Neighbors availableSlots) {
+    private static void addTopSlot(int x, int y, NeighborSlots availableSlots) {
             availableSlots.setTopNeighbour(new Slot(x-1, y));
     }
-    private static void addLeftSlot(int x, int y, Neighbors availableSlots) {
+    private static void addLeftSlot(int x, int y, NeighborSlots availableSlots) {
             availableSlots.setLeftNeighbour(new Slot(x, y-1));
     }
 }

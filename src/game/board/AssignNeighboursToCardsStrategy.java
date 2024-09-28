@@ -1,6 +1,6 @@
 package game.board;
 
-import game.Neighbors;
+import game.NeighborSlots;
 import game.Slot;
 
 
@@ -13,7 +13,7 @@ public class AssignNeighboursToCardsStrategy implements ProcessSlotStrategy{
     }
 
     @Override
-    public void processSlotAndWithItsNeighbours(Slot targetSlot, Neighbors neighbours) {
+    public void processSlotAndWithItsNeighbours(Slot targetSlot, NeighborSlots neighbours) {
         board.getCardAtSlot(targetSlot).setUpperNeighbour(board.getCardAtSlot(neighbours.getTopNeighbour()));
         board.getCardAtSlot(targetSlot).setBottomNeighbour(board.getCardAtSlot(neighbours.getBottomNeighbour()));
         board.getCardAtSlot(targetSlot).setLeftNeighbour(board.getCardAtSlot(neighbours.getLeftNeighbour()));

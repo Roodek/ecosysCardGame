@@ -16,7 +16,7 @@ public class BoardAvailableMoveCalculator {
     }
 
     public Set<Slot> getAvailableMoves() {
-        BoardSlotProcessor.iterateOverBoardEntries(board.getCardBoard(),availableMovesProcessor);
+        BoardSlotProcessor.iterateOverBoardEntriesAndApplyStrategy(board.getCardBoard(),availableMovesProcessor);
         return availableMovesProcessor.getAvailableMoves();
     }
 

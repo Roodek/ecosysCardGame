@@ -1,11 +1,8 @@
 package game.board;
 
-import game.Neighbors;
+import game.NeighborSlots;
 import game.Slot;
-import game.cards.Card;
-
-import java.util.ArrayList;
 
 public interface ProcessSlotStrategy {
-    void processSlotAndWithItsNeighbours(Slot targetSlot, Neighbors neighbours);
+    void processSlotAndWithItsNeighbours(Slot targetSlot, NeighborSlots neighbours);
 }
