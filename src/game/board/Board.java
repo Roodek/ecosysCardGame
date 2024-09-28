@@ -10,6 +10,15 @@ public class Board {
     public static final int CARD_NAME_LENGTH = 11;
     private int sizeVertical = 0;
     private int sizeHorizontal = 0;
+
+    public int getMaxVerticalSize() {
+        return maxVerticalSize;
+    }
+
+    public int getMaxHorizontalSize() {
+        return maxHorizontalSize;
+    }
+
     private int maxVerticalSize = 5;
     private int maxHorizontalSize = 5;
     private ArrayList<ArrayList<Card>> cardBoard = new ArrayList<>();
