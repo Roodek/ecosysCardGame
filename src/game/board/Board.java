@@ -1,5 +1,6 @@
 package game.board;
 
+import game.Slot;
 import game.cards.Card;
 
 import java.util.ArrayList;
@@ -35,8 +36,8 @@ public class Board {
         for (var row : cardBoard) {
             for (var card : row) {
                 if (card != null) {
-                    var padding = CARD_NAME_LENGTH - (card.getType().toString().length() + 2);
-                    System.out.printf("%s%d%d%s", card.getType().toString(), card.getCoordinateX(), card.getCoordinateY(), " ".repeat(Math.max(0, padding)));
+                    var padding = CARD_NAME_LENGTH - (card.getType().toString().length() );
+                    System.out.printf("%s%s", card.getType().toString(), " ".repeat(Math.max(0, padding)));
                 } else {
                     System.out.printf("[        ]%s", " ".repeat(Math.max(0, CARD_NAME_LENGTH - 10)));
                 }
@@ -44,6 +45,9 @@ public class Board {
             System.out.println();
         }
 
+    }
+    public Card getCardAtSlot(Slot slot){
+        return cardBoard.get(slot.coordX()).get(slot.coordY());
     }
 
     public ArrayList<ArrayList<Card>> getCardBoard() {
@@ -54,13 +58,13 @@ public class Board {
         putCard(card, 0, 0);
     }
 
-    public void putCard(Card card, int coordX, int coordY) {
+    public void putCard(Card card, int coordX, int coordY) throws IndexOutOfBoundsException {
         if (cardBoard.isEmpty()) {
             initBoard();
             cardBoard.get(1).set(1, card);
             sizeVertical++;
             sizeHorizontal++;
-        } else {
+        } else{
             cardBoard.get(coordX).set(coordY, card);
             if (coordX == 0 && sizeVertical < 5) {
                 addNewFirstRow();
@@ -93,7 +97,6 @@ public class Board {
             for (int i=0;i<cardBoard.size();i++){
                 cardBoard.set(i,new ArrayList<>(cardBoard.get(i).subList(1, maxHorizontalSize + 1)));
             }
-           // cardBoard.forEach(row -> row.subList(1, maxHorizontallSize + 1));
             maxVerticalSize = 4;
         }
     }
@@ -123,5 +126,8 @@ public class Board {
         }
     }
 
+    public int finalCount(){
+return 0;
+    }
 
 }

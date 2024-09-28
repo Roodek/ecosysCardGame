@@ -1,6 +1,6 @@
 package unit;
 
-import game.Move;
+import game.Slot;
 import game.board.Board;
 import game.board.BoardAvailableMoveCalculator;
 import game.cards.*;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-public class BoardAvailableMoveCalculatorTest {
+public class BoardAvailableSlotCalculatorTest {
     private Board board;
     private Card wolf = new WolfCard();
     private Card river = new RiverCard();
@@ -59,14 +59,14 @@ public class BoardAvailableMoveCalculatorTest {
 
 
         var expectedAvailableMoves = Set.of(
-                new Move(0,2),
-                new Move(0,3),
-                new Move(1,1),
-                new Move(1,4),
-                new Move(2,0),
-                new Move(2,3),
-                new Move(3,1),
-                new Move(3,2)
+                new Slot(0,2),
+                new Slot(0,3),
+                new Slot(1,1),
+                new Slot(1,4),
+                new Slot(2,0),
+                new Slot(2,3),
+                new Slot(3,1),
+                new Slot(3,2)
                 );
 
         assertEquals(expectedAvailableMoves,calculator.getAvailableMoves());
@@ -87,20 +87,53 @@ public class BoardAvailableMoveCalculatorTest {
         when(board.getMaxVerticalSize()).thenReturn(5);
 
         var expectedAvailableMoves = Set.of(
-                new Move(0,1),
-                new Move(0,3),
-                new Move(1,1),
-                new Move(1,4),
-                new Move(2,0),
-                new Move(2,3),
-                new Move(3,1),
-                new Move(3,3),
-                new Move(4,1),
-                new Move(4,3)
+                new Slot(0,1),
+                new Slot(0,3),
+                new Slot(1,1),
+                new Slot(1,4),
+                new Slot(2,0),
+                new Slot(2,3),
+                new Slot(3,1),
+                new Slot(3,3),
+                new Slot(4,1),
+                new Slot(4,3)
         );
 
         var availableMoves = calculator.getAvailableMoves();
         assertEquals(expectedAvailableMoves.size(),availableMoves.size());
         assertEquals(expectedAvailableMoves,availableMoves);
     }
+
+    @Test
+    void checkAvailableSlotsInBoard3x5(){
+        var exampleBoard = new ArrayList<ArrayList<Card>>();
+        exampleBoard.add(new ArrayList<>(Arrays.asList(null,null,null,null,null)));
+        exampleBoard.add(new ArrayList<>(Arrays.asList(null,null,wolf,null,null)));
+        exampleBoard.add(new ArrayList<>(Arrays.asList(elk,eagle,bee,fish,dragonfly)));
+        exampleBoard.add(new ArrayList<>(Arrays.asList(null,null,rabbit,null,null)));
+        exampleBoard.add(new ArrayList<>(Arrays.asList(null,null,null,null,null)));
+
+
+        when(board.getCardBoard()).thenReturn(exampleBoard);
+        when(board.getMaxHorizontalSize()).thenReturn(4);
+        when(board.getMaxVerticalSize()).thenReturn(5);
+
+        var expectedAvailableMoves = Set.of(
+                new Slot(0,2),
+                new Slot(1,0),
+                new Slot(1,1),
+                new Slot(1,3),
+                new Slot(1,4),
+                new Slot(3,0),
+                new Slot(3,1),
+                new Slot(3,3),
+                new Slot(3,4),
+                new Slot(4,2)
+        );
+
+        var availableMoves = calculator.getAvailableMoves();
+        assertEquals(expectedAvailableMoves.size(),availableMoves.size());
+        assertEquals(expectedAvailableMoves,availableMoves);
+    }
+
 }

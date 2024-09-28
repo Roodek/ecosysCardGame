@@ -12,31 +12,6 @@ public abstract class BasicCard implements Card{
     BasicCard(CardType type){
         this.type = type;
     }
-    @Override
-    public int getCoordinateX() {
-        return this.coordX;
-    }
-
-    @Override
-    public int getCoordinateY() {
-        return this.coordY;
-    }
-
-    @Override
-    public void setCoordinateX(int x) {
-        this.coordX = x;
-    }
-
-    @Override
-    public void setCoordinateY(int y) {
-        this.coordY = y;
-    }
-
-    @Override
-    public void setCoordinates(int x, int y) {
-        this.coordX = x;
-        this.coordY = y;
-    }
 
     @Override
     public Card getUpperNeighbour() {

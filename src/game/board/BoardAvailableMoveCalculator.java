@@ -1,11 +1,9 @@
 package game.board;
 
-import game.Move;
-import game.cards.Card;
+import game.Slot;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class BoardAvailableMoveCalculator {
@@ -16,11 +14,11 @@ public class BoardAvailableMoveCalculator {
         this.board = board;
     }
 
-    public Set<Move> getAvailableMoves() {
+    public Set<Slot> getAvailableMoves() {
         if(board.getCardBoard().isEmpty())
             return Set.of();
         else{
-            var possibleMoveSet = new HashSet<Move>();
+            var possibleMoveSet = new HashSet<Slot>();
             for(int i =0;i<board.getCardBoard().size();i++){
                 for(int j = 0;j<board.getCardBoard().get(i).size();j++){
                     possibleMoveSet.addAll(checkNeighbours(i, j));
@@ -30,8 +28,8 @@ public class BoardAvailableMoveCalculator {
         }
     }
 
-    private ArrayList<Move> checkNeighbours(int x, int y){
-        var availableMoves = new ArrayList<Move>();
+    private ArrayList<Slot> checkNeighbours(int x, int y){
+        var availableMoves = new ArrayList<Slot>();
         if(board.getCardBoard().get(x).get(y)!=null){
             if(ilsLeftUpperCorner(x, y)){
                 addRightSlotIfPossible(x, y, availableMoves);
@@ -82,53 +80,53 @@ public class BoardAvailableMoveCalculator {
     }
 
     private boolean isBottomWall(int x, int y) {
-        return x == board.getMaxVerticalSize()-1 && y < board.getMaxHorizontalSize() - 1 && y > 0;
+        return x == board.getCardBoard().size()-1 && y < board.getCardBoard().get(x).size() - 1 && y > 0;
     }
     private boolean isUpperWall(int x, int y) {
-        return x == 0 && y < board.getMaxHorizontalSize() - 1 && y > 0;
+        return x == 0 && y < board.getCardBoard().get(x).size() - 1 && y > 0;
     }
     private boolean isLeftWall(int x, int y) {
-        return x > 0 && x < board.getMaxVerticalSize() - 1 && y == 0;
+        return x > 0 && x < board.getCardBoard().size() - 1 && y == 0;
     }
     private boolean isRightWall(int x, int y) {
-        return x > 0 && x < board.getMaxVerticalSize() - 1 && y == board.getMaxHorizontalSize()-1;
+        return x > 0 && x < board.getCardBoard().size() - 1 && y == board.getCardBoard().get(x).size()-1;
     }
 
     private boolean isBottomRightCorner(int x, int y) {
-        return x == board.getMaxVerticalSize() - 1 && y == board.getMaxHorizontalSize() - 1;
+        return x == board.getCardBoard().size() - 1 && y == board.getCardBoard().get(x).size() - 1;
     }
 
     private boolean isBottomLeftCorner(int x, int y) {
-        return x == board.getMaxVerticalSize() - 1 && y == 0;
+        return x == board.getCardBoard().size() - 1 && y == 0;
     }
 
     private boolean isUpperRightCorner(int x, int y) {
-        return x == 0 && y == board.getMaxHorizontalSize() - 1;
+        return x == 0 && y == board.getCardBoard().get(x).size() - 1;
     }
 
     private static boolean ilsLeftUpperCorner(int x, int y) {
         return x == 0 && y == 0;
     }
 
-    private void addBottomSlotIfPossible(int x, int y, ArrayList<Move> availableMoves) {
+    private void addBottomSlotIfPossible(int x, int y, ArrayList<Slot> availableSlots) {
         if(board.getCardBoard().get(x+1).get(y)==null){
-            availableMoves.add(new Move(x+1, y ));
+            availableSlots.add(new Slot(x+1, y ));
         }
     }
 
-    private void addRightSlotIfPossible(int x, int y, ArrayList<Move> availableMoves) {
+    private void addRightSlotIfPossible(int x, int y, ArrayList<Slot> availableSlots) {
         if(board.getCardBoard().get(x).get(y+1)==null){
-            availableMoves.add(new Move(x, y+1));
+            availableSlots.add(new Slot(x, y+1));
         }
     }
-    private void addTopSlotIfPossible(int x, int y, ArrayList<Move> availableMoves) {
+    private void addTopSlotIfPossible(int x, int y, ArrayList<Slot> availableSlots) {
         if(board.getCardBoard().get(x-1).get(y)==null){
-            availableMoves.add(new Move(x-1, y));
+            availableSlots.add(new Slot(x-1, y));
         }
     }
-    private void addLeftSlotIfPossible(int x, int y, ArrayList<Move> availableMoves) {
+    private void addLeftSlotIfPossible(int x, int y, ArrayList<Slot> availableSlots) {
         if(board.getCardBoard().get(x).get(y-1)==null){
-            availableMoves.add(new Move(x, y-1));
+            availableSlots.add(new Slot(x, y-1));
         }
     }
 
