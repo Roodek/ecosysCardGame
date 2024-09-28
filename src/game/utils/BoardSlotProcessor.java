@@ -1,5 +1,7 @@
-package game;
+package game.utils;
 
+import game.Neighbors;
+import game.Slot;
 import game.board.ProcessSlotStrategy;
 import game.cards.Card;
 
@@ -17,8 +19,8 @@ public class BoardSlotProcessor {
         }
     }
 
-    private static ArrayList<Slot> getNeighbours(ArrayList<ArrayList<Card>> board, int x, int y){
-        var neighbours = new ArrayList<Slot>();
+    private static Neighbors getNeighbours(ArrayList<ArrayList<Card>> board, int x, int y){
+        var neighbours = new Neighbors();
         if(isLeftUpperCorner(board, x, y)){
             addRightSlot(x, y, neighbours);
             addBottomSlot(x, y, neighbours);
@@ -93,17 +95,17 @@ public class BoardSlotProcessor {
         return x == 0 && y == 0;
     }
 
-    private static void addBottomSlot(int x, int y, ArrayList<Slot> availableSlots) {
-            availableSlots.add(new Slot(x+1, y ));
+    private static void addBottomSlot(int x, int y, Neighbors availableSlots) {
+            availableSlots.setBottomNeighbour(new Slot(x+1, y ));
     }
 
-    private static void addRightSlot(int x, int y, ArrayList<Slot> availableSlots) {
-            availableSlots.add(new Slot(x, y+1));
+    private static void addRightSlot(int x, int y, Neighbors availableSlots) {
+            availableSlots.setRightNeighbour(new Slot(x, y+1));
     }
-    private static void addTopSlot(int x, int y, ArrayList<Slot> availableSlots) {
-            availableSlots.add(new Slot(x-1, y));
+    private static void addTopSlot(int x, int y, Neighbors availableSlots) {
+            availableSlots.setTopNeighbour(new Slot(x-1, y));
     }
-    private static void addLeftSlot(int x, int y, ArrayList<Slot> availableSlots) {
-            availableSlots.add(new Slot(x, y-1));
+    private static void addLeftSlot(int x, int y, Neighbors availableSlots) {
+            availableSlots.setLeftNeighbour(new Slot(x, y-1));
     }
 }

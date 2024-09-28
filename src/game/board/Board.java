@@ -4,6 +4,7 @@ import game.Slot;
 import game.cards.Card;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 
 public class Board {
@@ -11,15 +12,6 @@ public class Board {
     public static final int CARD_NAME_LENGTH = 11;
     private int sizeVertical = 0;
     private int sizeHorizontal = 0;
-
-    public int getMaxVerticalSize() {
-        return maxVerticalSize;
-    }
-
-    public int getMaxHorizontalSize() {
-        return maxHorizontalSize;
-    }
-
     private int maxVerticalSize = 5;
     private int maxHorizontalSize = 5;
     private ArrayList<ArrayList<Card>> cardBoard = new ArrayList<>();
@@ -36,8 +28,8 @@ public class Board {
         for (var row : cardBoard) {
             for (var card : row) {
                 if (card != null) {
-                    var padding = CARD_NAME_LENGTH - (card.getType().toString().length() );
-                    System.out.printf("%s%s", card.getType().toString(), " ".repeat(Math.max(0, padding)));
+                    var padding = CARD_NAME_LENGTH - (card.getType().toString().length() + 1);
+                    System.out.printf(" %s%s", card.getType().toString(), " ".repeat(Math.max(0, padding)));
                 } else {
                     System.out.printf("[        ]%s", " ".repeat(Math.max(0, CARD_NAME_LENGTH - 10)));
                 }
@@ -47,7 +39,11 @@ public class Board {
 
     }
     public Card getCardAtSlot(Slot slot){
-        return cardBoard.get(slot.coordX()).get(slot.coordY());
+        if(slot==null) {
+            return null;
+        }else {
+            return cardBoard.get(slot.coordX()).get(slot.coordY());
+        }
     }
 
     public ArrayList<ArrayList<Card>> getCardBoard() {
@@ -126,8 +122,11 @@ public class Board {
         }
     }
 
-    public int finalCount(){
-return 0;
+    public int finalPointCount()
+    {
+        return cardBoard.stream()
+                .flatMap(Collection::stream)
+                .toList().stream()
+                .reduce(0,(subtotal,card)->subtotal + card.count(),Integer::sum);
     }
-
 }

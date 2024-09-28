@@ -1,5 +1,11 @@
 package game.cards;
 
+import game.Slot;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
+
 public abstract class BasicCard implements Card{
 
     int coordX;
@@ -13,6 +19,10 @@ public abstract class BasicCard implements Card{
         this.type = type;
     }
 
+    @Override
+    public List<Card> getNeighbours(){
+        return Stream.of(upperNeighbour,bottomNeighbour,leftNeighbour,rightNeighbour).filter(Objects::nonNull).toList();
+    }
     @Override
     public Card getUpperNeighbour() {
         return this.upperNeighbour;

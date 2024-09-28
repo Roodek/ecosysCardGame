@@ -1,5 +1,6 @@
 package game.board;
 
+import game.Neighbors;
 import game.Slot;
 import game.cards.Card;
 
@@ -14,11 +15,16 @@ public class CheckSlotsAvailabilityStrategy implements ProcessSlotStrategy{
     }
 
     private Board board;
+
+    public Set<Slot> getAvailableMoves() {
+        return availableMoves;
+    }
+
     private Set<Slot> availableMoves = new HashSet<>();
     @Override
-    public void processSlotAndWithItsNeighbours(Slot targetSlot, ArrayList<Slot> neighbours) {
+    public void processSlotAndWithItsNeighbours(Slot targetSlot, Neighbors neighbours) {
         if(board.getCardAtSlot(targetSlot)!=null){
-            for(var slot:neighbours){
+            for(var slot:neighbours.toList()){
                 if (board.getCardAtSlot(slot)==null){
                     availableMoves.add(slot);
                 }

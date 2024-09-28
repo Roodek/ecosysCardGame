@@ -34,7 +34,7 @@ public class BoardAvailableSlotCalculatorTest {
     private BoardAvailableMoveCalculator calculator;
     @BeforeEach
     void prep(){
-        board = mock(Board.class);
+        board = new Board();
         calculator = new BoardAvailableMoveCalculator(board);
 
     }
@@ -47,16 +47,10 @@ public class BoardAvailableSlotCalculatorTest {
 
     @Test
     void checkAvailableSlotsInBoard2x2(){
-        var exampleBoard = new ArrayList<ArrayList<Card>>();
-        exampleBoard.add(new ArrayList<>(Arrays.asList(null,null,null,null,null)));
-        exampleBoard.add(new ArrayList<>(Arrays.asList(null,null,eagle,fish,null)));
-        exampleBoard.add(new ArrayList<>(Arrays.asList(null,wolf,bee,null,null)));
-        exampleBoard.add(new ArrayList<>(Arrays.asList(null,null,null,null,null)));
-
-        when(board.getCardBoard()).thenReturn(exampleBoard);
-        when(board.getMaxHorizontalSize()).thenReturn(5);
-        when(board.getMaxVerticalSize()).thenReturn(5);
-
+        board.getCardBoard().add(new ArrayList<>(Arrays.asList(null,null,null,null,null)));
+        board.getCardBoard().add(new ArrayList<>(Arrays.asList(null,null,eagle,fish,null)));
+        board.getCardBoard().add(new ArrayList<>(Arrays.asList(null,wolf,bee,null,null)));
+        board.getCardBoard().add(new ArrayList<>(Arrays.asList(null,null,null,null,null)));
 
         var expectedAvailableMoves = Set.of(
                 new Slot(0,2),
@@ -74,17 +68,13 @@ public class BoardAvailableSlotCalculatorTest {
 
     @Test
     void checkAvailableSlotsInBoard5x3(){
-        var exampleBoard = new ArrayList<ArrayList<Card>>();
-        exampleBoard.add(new ArrayList<>(Arrays.asList(null,null,elk,null,null)));
-        exampleBoard.add(new ArrayList<>(Arrays.asList(null,null,eagle,fish,null)));
-        exampleBoard.add(new ArrayList<>(Arrays.asList(null,wolf,bee,null,null)));
-        exampleBoard.add(new ArrayList<>(Arrays.asList(null,null,rabbit,null,null)));
-        exampleBoard.add(new ArrayList<>(Arrays.asList(null,null,dragonfly,null,null)));
 
+        board.getCardBoard().add(new ArrayList<>(Arrays.asList(null,null,elk,null,null)));
+        board.getCardBoard().add(new ArrayList<>(Arrays.asList(null,null,eagle,fish,null)));
+        board.getCardBoard().add(new ArrayList<>(Arrays.asList(null,wolf,bee,null,null)));
+        board.getCardBoard().add(new ArrayList<>(Arrays.asList(null,null,rabbit,null,null)));
+        board.getCardBoard().add(new ArrayList<>(Arrays.asList(null,null,dragonfly,null,null)));
 
-        when(board.getCardBoard()).thenReturn(exampleBoard);
-        when(board.getMaxHorizontalSize()).thenReturn(4);
-        when(board.getMaxVerticalSize()).thenReturn(5);
 
         var expectedAvailableMoves = Set.of(
                 new Slot(0,1),
@@ -106,17 +96,12 @@ public class BoardAvailableSlotCalculatorTest {
 
     @Test
     void checkAvailableSlotsInBoard3x5(){
-        var exampleBoard = new ArrayList<ArrayList<Card>>();
-        exampleBoard.add(new ArrayList<>(Arrays.asList(null,null,null,null,null)));
-        exampleBoard.add(new ArrayList<>(Arrays.asList(null,null,wolf,null,null)));
-        exampleBoard.add(new ArrayList<>(Arrays.asList(elk,eagle,bee,fish,dragonfly)));
-        exampleBoard.add(new ArrayList<>(Arrays.asList(null,null,rabbit,null,null)));
-        exampleBoard.add(new ArrayList<>(Arrays.asList(null,null,null,null,null)));
+        board.getCardBoard().add(new ArrayList<>(Arrays.asList(null,null,null,null,null)));
+        board.getCardBoard().add(new ArrayList<>(Arrays.asList(null,null,wolf,null,null)));
+        board.getCardBoard().add(new ArrayList<>(Arrays.asList(elk,eagle,bee,fish,dragonfly)));
+        board.getCardBoard().add(new ArrayList<>(Arrays.asList(null,null,rabbit,null,null)));
+        board.getCardBoard().add(new ArrayList<>(Arrays.asList(null,null,null,null,null)));
 
-
-        when(board.getCardBoard()).thenReturn(exampleBoard);
-        when(board.getMaxHorizontalSize()).thenReturn(4);
-        when(board.getMaxVerticalSize()).thenReturn(5);
 
         var expectedAvailableMoves = Set.of(
                 new Slot(0,2),

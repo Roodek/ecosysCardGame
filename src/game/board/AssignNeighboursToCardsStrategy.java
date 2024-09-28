@@ -1,14 +1,22 @@
 package game.board;
 
+import game.Neighbors;
 import game.Slot;
-import game.cards.Card;
 
-import java.util.ArrayList;
 
 public class AssignNeighboursToCardsStrategy implements ProcessSlotStrategy{
 
-    @Override
-    public void processSlotAndWithItsNeighbours(Slot targetSlot, ArrayList<Slot> neighbours) {
+    private Board board;
 
+    public AssignNeighboursToCardsStrategy(Board board) {
+        this.board = board;
+    }
+
+    @Override
+    public void processSlotAndWithItsNeighbours(Slot targetSlot, Neighbors neighbours) {
+        board.getCardAtSlot(targetSlot).setUpperNeighbour(board.getCardAtSlot(neighbours.getTopNeighbour()));
+        board.getCardAtSlot(targetSlot).setBottomNeighbour(board.getCardAtSlot(neighbours.getBottomNeighbour()));
+        board.getCardAtSlot(targetSlot).setLeftNeighbour(board.getCardAtSlot(neighbours.getLeftNeighbour()));
+        board.getCardAtSlot(targetSlot).setRightNeighbour(board.getCardAtSlot(neighbours.getRightNeighbour()));
     }
 }

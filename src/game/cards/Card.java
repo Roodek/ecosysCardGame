@@ -1,5 +1,11 @@
 package game.cards;
 
+import game.Slot;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
+
 public interface Card {
     enum CardType{
         BEE,
@@ -23,6 +29,10 @@ public interface Card {
     void setLeftNeighbour(Card card);
     void setUpperNeighbour(Card card);
     void setBottomNeighbour(Card card);
+
+    List<Card> getNeighbours();
+
+
     Integer count();
     CardType getType();
 }
