@@ -2,6 +2,7 @@ package game.board;
 
 import game.Slot;
 import game.cards.Card;
+import game.exceptions.InvalidMoveException;
 import game.utils.BoardSlotProcessor;
 
 import java.util.ArrayList;
@@ -14,6 +15,23 @@ public class Board {
     private int sizeVertical = 0;
     private int sizeHorizontal = 0;
     private int maxVerticalSize = 5;
+
+    public void setSizeVertical(int sizeVertical) {
+        this.sizeVertical = sizeVertical;
+    }
+
+    public void setSizeHorizontal(int sizeHorizontal) {
+        this.sizeHorizontal = sizeHorizontal;
+    }
+
+    public void setMaxVerticalSize(int maxVerticalSize) {
+        this.maxVerticalSize = maxVerticalSize;
+    }
+
+    public void setMaxHorizontalSize(int maxHorizontalSize) {
+        this.maxHorizontalSize = maxHorizontalSize;
+    }
+
     private int maxHorizontalSize = 5;
     private ArrayList<ArrayList<Card>> cardBoard = new ArrayList<>();
 
@@ -51,17 +69,20 @@ public class Board {
         return cardBoard;
     }
 
-    public void putFirstCard(Card card) {
+    public void putFirstCard(Card card) throws InvalidMoveException {
         putCard(card, 0, 0);
     }
 
-    public void putCard(Card card, int coordX, int coordY) throws IndexOutOfBoundsException {
+    public void putCard(Card card, int coordX, int coordY) throws IndexOutOfBoundsException, InvalidMoveException {
         if (cardBoard.isEmpty()) {
             initBoard();
             cardBoard.get(1).set(1, card);
             sizeVertical++;
             sizeHorizontal++;
         } else{
+            if(cardBoard.get(coordX).get(coordY)!=null){
+                throw new InvalidMoveException("Invalid move, slot already taken");
+            }
             cardBoard.get(coordX).set(coordY, card);
             if (coordX == 0 && sizeVertical < 5) {
                 addNewFirstRow();

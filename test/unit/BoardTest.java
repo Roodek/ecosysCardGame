@@ -3,6 +3,7 @@ package unit;
 
 import game.board.Board;
 import game.cards.*;
+import game.exceptions.InvalidMoveException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,7 @@ class BoardTest {
     }
 
     @Test
-    void putCardAtCoordinates(){
+    void putCardAtCoordinates() throws InvalidMoveException {
         var wolf = new WolfCard();
         var river = new RiverCard();
         var bee = new BeeCard();
@@ -81,7 +82,7 @@ class BoardTest {
     }
 
     @Test
-    void checkIfBoardLimitedProperlyTo4x5(){
+    void checkIfBoardLimitedProperlyTo4x5() throws InvalidMoveException {
         var wolf = new WolfCard();
         var river = new RiverCard();
         var bee = new BeeCard();
@@ -123,7 +124,7 @@ class BoardTest {
     }
 
     @Test
-    void checkIfBoardLimitedProperlyTo5x4(){
+    void checkIfBoardLimitedProperlyTo5x4() throws InvalidMoveException {
         var wolf = new WolfCard();
         var river = new RiverCard();
         var bee = new BeeCard();

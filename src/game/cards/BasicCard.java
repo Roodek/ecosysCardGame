@@ -7,10 +7,10 @@ import java.util.stream.Stream;
 
 public abstract class BasicCard implements Card{
     CardType type;
-    Card upperNeighbour;
-    Card bottomNeighbour;
-    Card leftNeighbour;
-    Card rightNeighbour;
+    Card upperNeighbour = null;
+    Card bottomNeighbour = null;
+    Card leftNeighbour = null;
+    Card rightNeighbour = null;
     BasicCard(CardType type){
         this.type = type;
     }
