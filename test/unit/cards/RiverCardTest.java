@@ -25,19 +25,27 @@ public class RiverCardTest extends CardTest{
     Card rabbit3 = new RabbitCard();
     Card rabbit4 = new RabbitCard();
 
-    Card river1 = new RiverCard();
-    Card river2 = new RiverCard();
-    Card river3 = new RiverCard();
-    Card river4 = new RiverCard();
-    Card river5 = new RiverCard();
-    Card river6 = new RiverCard();
-    Card river7 = new RiverCard();
+    FieldCard river1 = new RiverCard();
+    FieldCard river2 = new RiverCard();
+    FieldCard river3 = new RiverCard();
+    FieldCard river4 = new RiverCard();
+    FieldCard river5 = new RiverCard();
+    FieldCard river6 = new RiverCard();
+    FieldCard river7 = new RiverCard();
+    FieldCard river8 = new RiverCard();
     @Test
-    void checkBuildingRiver(){
+    void checkBuildingSingleEndedRiver(){
         var expectedBoard =new ArrayList<ArrayList<Card>>();
-        //TODO: fill whole board with cards instead of nulls
-        expectedBoard.add(new ArrayList<>(Arrays.asList(river1,river2,fish1 ,river3)));
-        expectedBoard.add(new ArrayList<>(Arrays.asList(bee1  ,river4,river5,river6)));
+
+        river1.setName("1");
+        river2.setName("2");
+        river3.setName("3");
+        river4.setName("4");
+        river5.setName("5");
+        river6.setName("6");
+        river7.setName("7");
+        expectedBoard.add(new ArrayList<>(Arrays.asList(river1,river2,fish1 ,river6)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(bee1  ,river3,river4,river5)));
         expectedBoard.add(new ArrayList<>(Arrays.asList(fox1  ,bear2 ,fish2 ,bee2)));
         expectedBoard.add(new ArrayList<>(Arrays.asList(bear4  ,bear1 ,bear3 ,river7)));
         expectedBoard.add(new ArrayList<>(Arrays.asList(rabbit1  ,rabbit2  ,rabbit3  ,rabbit4)));
@@ -45,7 +53,152 @@ public class RiverCardTest extends CardTest{
         setBoard(expectedBoard);
         board.assignNeighbours();//although we should assign neighbours manually, tests should be unitary and limited to test given class logic :P
 
-        //assertEquals(6,river1.)
+        board.finalPointCount();
+        assertEquals(6,river1.getFieldSize());
+        assertEquals(6,river2.getFieldSize());
+        assertEquals(6,river4.getFieldSize());
+        assertEquals(6,river5.getFieldSize());
+        assertEquals(6,river6.getFieldSize());
+        assertEquals(6,river3.getFieldSize());
+        assertEquals(1,river7.getFieldSize());
+    }
 
+    @Test
+    void checkBuildingDoubleEndedRiver(){
+        var expectedBoard =new ArrayList<ArrayList<Card>>();
+
+        river1.setName("1");
+        river2.setName("2");
+        river3.setName("3");
+        river4.setName("4");
+        river5.setName("5");
+        river6.setName("6");
+        river7.setName("7");
+        expectedBoard.add(new ArrayList<>(Arrays.asList(bear2,river2,fish1 ,bear1)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(bee1  ,river3,river4,river5)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(fox1  ,river1 ,fish2 ,bee2)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(bear4  ,river6 ,bear3 ,river7)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(rabbit1  ,rabbit2  ,rabbit3  ,rabbit4)));
+
+        setBoard(expectedBoard);
+        board.assignNeighbours();//although we should assign neighbours manually, tests should be unitary and limited to test given class logic :P
+
+        board.finalPointCount();
+        assertEquals(6,river2.getFieldSize());
+        assertEquals(6,river3.getFieldSize());
+        assertEquals(6,river1.getFieldSize());
+        assertEquals(6,river4.getFieldSize());
+        assertEquals(6,river5.getFieldSize());
+        assertEquals(6,river6.getFieldSize());
+        assertEquals(1,river7.getFieldSize());
+
+
+    }
+
+    @Test
+    void checkBuildingCrossRiver(){
+        var expectedBoard =new ArrayList<ArrayList<Card>>();
+
+        river1.setName("1");
+        river2.setName("2");
+        river3.setName("3");
+        river4.setName("4");
+        river5.setName("5");
+        river6.setName("6");
+        river7.setName("7");
+        river8.setName("8");
+        expectedBoard.add(new ArrayList<>(Arrays.asList(bear2,river4,fish1 ,bear1)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(bee1  ,river3,fish2,bee2)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(river1  ,river2 ,river7 ,river8)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(bear4  ,river5 ,bear3 ,rabbit2)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(rabbit1  ,river6  ,rabbit3  ,rabbit4)));
+
+        setBoard(expectedBoard);
+        board.assignNeighbours();//although we should assign neighbours manually, tests should be unitary and limited to test given class logic :P
+
+        board.finalPointCount();
+
+        assertEquals(8,river3.getFieldSize());
+        assertEquals(8,river1.getFieldSize());
+        assertEquals(8,river4.getFieldSize());
+        assertEquals(8,river2.getFieldSize());
+        assertEquals(8,river5.getFieldSize());
+        assertEquals(8,river6.getFieldSize());
+        assertEquals(8,river7.getFieldSize());
+        assertEquals(8,river8.getFieldSize());
+
+    }
+
+    @Test
+    void checkBuildingUShapeRiver(){
+        var expectedBoard =new ArrayList<ArrayList<Card>>();
+
+        river1.setName("1");
+        river2.setName("2");
+        river3.setName("3");
+        river4.setName("4");
+        river5.setName("5");
+        river6.setName("6");
+        river7.setName("7");
+        river8.setName("8");
+        var river9 = new RiverCard();
+        river9.setName("9");
+
+        expectedBoard.add(new ArrayList<>(Arrays.asList(river1,rabbit3,river9 ,bear1)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(river2  ,fish1,river8,bee2)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(river3  ,bee1 ,river7 ,fox1)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(river4  ,river5 ,river6 ,rabbit2)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(bee1  ,rabbit1  ,bee2  ,rabbit4)));
+
+        setBoard(expectedBoard);
+        board.assignNeighbours();//although we should assign neighbours manually, tests should be unitary and limited to test given class logic :P
+
+        board.finalPointCount();
+
+        assertEquals(9,river3.getFieldSize());
+        assertEquals(9,river1.getFieldSize());
+        assertEquals(9,river4.getFieldSize());
+        assertEquals(9,river2.getFieldSize());
+        assertEquals(9,river5.getFieldSize());
+        assertEquals(9,river6.getFieldSize());
+        assertEquals(9,river7.getFieldSize());
+        assertEquals(9,river8.getFieldSize());
+        assertEquals(9,river9.getFieldSize());
+    }
+
+    @Test
+    void checkBuildingPondShapeRiver(){
+        var expectedBoard =new ArrayList<ArrayList<Card>>();
+
+        river1.setName("1");
+        river2.setName("2");
+        river3.setName("3");
+        river4.setName("4");
+        river5.setName("5");
+        river6.setName("6");
+        river7.setName("7");
+        river8.setName("8");
+        var river9 = new RiverCard();
+        river9.setName("9");
+
+        expectedBoard.add(new ArrayList<>(Arrays.asList(river1,rabbit3,river9 ,bear1)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(river2  ,fish1,river8,bee2)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(river3  ,river6 ,fox1 ,fox1)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(river4  ,river5 ,bee1 ,rabbit2)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(bee1  ,rabbit1  ,bee2  ,rabbit4)));
+
+        setBoard(expectedBoard);
+        board.assignNeighbours();//although we should assign neighbours manually, tests should be unitary and limited to test given class logic :P
+
+        board.finalPointCount();
+
+        assertEquals(6,river3.getFieldSize());
+        assertEquals(6,river1.getFieldSize());
+        assertEquals(6,river4.getFieldSize());
+        assertEquals(6,river2.getFieldSize());
+        assertEquals(6,river5.getFieldSize());
+        assertEquals(6,river6.getFieldSize());
+        assertEquals(2,river8.getFieldSize());
+        assertEquals(2,river9.getFieldSize());
     }
 }

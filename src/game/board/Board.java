@@ -2,6 +2,7 @@ package game.board;
 
 import game.Slot;
 import game.cards.Card;
+import game.cards.FieldCard;
 import game.exceptions.InvalidMoveException;
 import game.utils.BoardSlotProcessor;
 
@@ -145,9 +146,20 @@ public class Board {
     public void assignNeighbours(){
         var assignNeighboursStrategy = new AssignNeighboursToCardsStrategy(this);
         BoardSlotProcessor.iterateOverBoardEntriesAndApplyStrategy(cardBoard,assignNeighboursStrategy);
+
+    }
+
+    private void mergeRiversAndMeadows(){
+        cardBoard.stream()
+                .flatMap(Collection::stream)
+                .filter(card -> card.getType()== Card.CardType.RIVER || card.getType() == Card.CardType.MEADOW)
+                .map(card -> (FieldCard)card)
+                .forEach(FieldCard::mergeFieldCards);
+
     }
     public int finalPointCount()
     {
+        mergeRiversAndMeadows();
         return cardBoard.stream()
                 .flatMap(Collection::stream)
                 .toList().stream()
