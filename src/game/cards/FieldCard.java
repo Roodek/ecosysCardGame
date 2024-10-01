@@ -6,13 +6,7 @@ import java.util.stream.Stream;
 
 public abstract class FieldCard extends BasicCard implements Card {
 
-
-    private String name;
     private boolean calculated = false;
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public boolean isCalculated() {
         return calculated;

@@ -22,12 +22,12 @@ public class BearCardTest extends CardTest{
     @Test
     void testCountPoints(){
         var expectedBoard =new ArrayList<ArrayList<Card>>();
-        //TODO: fill whole board with cards instead of nulls
-        expectedBoard.add(new ArrayList<>(Arrays.asList(null,fox1,null,null)));
-        expectedBoard.add(new ArrayList<>(Arrays.asList(null,bear1,bee1,null)));
-        expectedBoard.add(new ArrayList<>(Arrays.asList(null,bear2,fish1,null)));
-        expectedBoard.add(new ArrayList<>(Arrays.asList(null,fish2,bear3,null)));
-        expectedBoard.add(new ArrayList<>(Arrays.asList(null,null,null,null)));
+
+        expectedBoard.add(new ArrayList<>(Arrays.asList(fox1,fox1,fox1,fox1)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(fox1,bear1,bee1,fox1)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(fox1,bear2,fish1,fox1)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(fox1,fish2,bear3,fox1)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(fox1,fox1,fox1,fox1)));
 
         setBoard(expectedBoard);
         board.assignNeighbours();//although we should assign neighbours manually, tests should be unitary and limited to test given class logic :P

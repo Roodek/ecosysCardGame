@@ -6,9 +6,7 @@ import game.cards.FieldCard;
 import game.exceptions.InvalidMoveException;
 import game.utils.BoardSlotProcessor;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 public class Board {
 
@@ -16,6 +14,13 @@ public class Board {
     private int sizeVertical = 0;
     private int sizeHorizontal = 0;
     private int maxVerticalSize = 5;
+    private int maxHorizontalSize = 5;
+
+    private Map<Card.CardType,Integer> generalPointCount= new HashMap<>();
+
+    public Board(){
+        Arrays.stream(Card.CardType.values()).forEach(cardType -> generalPointCount.put(cardType,0));
+    }
 
     public void setSizeVertical(int sizeVertical) {
         this.sizeVertical = sizeVertical;
@@ -25,15 +30,6 @@ public class Board {
         this.sizeHorizontal = sizeHorizontal;
     }
 
-    public void setMaxVerticalSize(int maxVerticalSize) {
-        this.maxVerticalSize = maxVerticalSize;
-    }
-
-    public void setMaxHorizontalSize(int maxHorizontalSize) {
-        this.maxHorizontalSize = maxHorizontalSize;
-    }
-
-    private int maxHorizontalSize = 5;
     private ArrayList<ArrayList<Card>> cardBoard = new ArrayList<>();
 
     public int getSizeVertical() {
@@ -146,6 +142,7 @@ public class Board {
     public void assignNeighbours(){
         var assignNeighboursStrategy = new AssignNeighboursToCardsStrategy(this);
         BoardSlotProcessor.iterateOverBoardEntriesAndApplyStrategy(cardBoard,assignNeighboursStrategy);
+        mergeRiversAndMeadows();
 
     }
 
@@ -157,12 +154,40 @@ public class Board {
                 .forEach(FieldCard::mergeFieldCards);
 
     }
+    private Integer countPointsForGivenCardTypeInGeneralPointCount(Card card){
+        var cardPoints = card.count();
+        generalPointCount.put(card.getType(),generalPointCount.get(card.getType())+cardPoints);
+        return cardPoints;
+    }
     public int finalPointCount()
     {
-        mergeRiversAndMeadows();
         return cardBoard.stream()
                 .flatMap(Collection::stream)
+                .filter(this::isNotElkWolfRiver)
                 .toList().stream()
-                .reduce(0,(subtotal,card)->subtotal + card.count(),Integer::sum);
+                .reduce(0,(subtotal,card)->subtotal + countPointsForGivenCardTypeInGeneralPointCount(card),Integer::sum);
+    }
+
+    private boolean isNotElkWolfRiver(Card card){
+        return card.getType() != Card.CardType.ELK && card.getType() != Card.CardType.WOLF && card.getType() != Card.CardType.RIVER;
+    }
+    private Integer countElkPoints(){
+        //TODO
+        return 0;
+    }
+    private Integer compareRivers(){
+        //TODO
+        return 0;
+    }
+    private Integer countAndCompareWolves(){
+        //TODO
+        return 0;
+    }
+    public void endGame(){
+        assignNeighbours();
+        //TODO compare and count wolves
+        //TODO compare and count Rivers
+        //TODO count Elks
+        finalPointCount();
     }
 }

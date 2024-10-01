@@ -37,13 +37,6 @@ public class RiverCardTest extends CardTest{
     void checkBuildingSingleEndedRiver(){
         var expectedBoard =new ArrayList<ArrayList<Card>>();
 
-        river1.setName("1");
-        river2.setName("2");
-        river3.setName("3");
-        river4.setName("4");
-        river5.setName("5");
-        river6.setName("6");
-        river7.setName("7");
         expectedBoard.add(new ArrayList<>(Arrays.asList(river1,river2,fish1 ,river6)));
         expectedBoard.add(new ArrayList<>(Arrays.asList(bee1  ,river3,river4,river5)));
         expectedBoard.add(new ArrayList<>(Arrays.asList(fox1  ,bear2 ,fish2 ,bee2)));
@@ -67,13 +60,6 @@ public class RiverCardTest extends CardTest{
     void checkBuildingDoubleEndedRiver(){
         var expectedBoard =new ArrayList<ArrayList<Card>>();
 
-        river1.setName("1");
-        river2.setName("2");
-        river3.setName("3");
-        river4.setName("4");
-        river5.setName("5");
-        river6.setName("6");
-        river7.setName("7");
         expectedBoard.add(new ArrayList<>(Arrays.asList(bear2,river2,fish1 ,bear1)));
         expectedBoard.add(new ArrayList<>(Arrays.asList(bee1  ,river3,river4,river5)));
         expectedBoard.add(new ArrayList<>(Arrays.asList(fox1  ,river1 ,fish2 ,bee2)));
@@ -99,14 +85,6 @@ public class RiverCardTest extends CardTest{
     void checkBuildingCrossRiver(){
         var expectedBoard =new ArrayList<ArrayList<Card>>();
 
-        river1.setName("1");
-        river2.setName("2");
-        river3.setName("3");
-        river4.setName("4");
-        river5.setName("5");
-        river6.setName("6");
-        river7.setName("7");
-        river8.setName("8");
         expectedBoard.add(new ArrayList<>(Arrays.asList(bear2,river4,fish1 ,bear1)));
         expectedBoard.add(new ArrayList<>(Arrays.asList(bee1  ,river3,fish2,bee2)));
         expectedBoard.add(new ArrayList<>(Arrays.asList(river1  ,river2 ,river7 ,river8)));
@@ -133,16 +111,7 @@ public class RiverCardTest extends CardTest{
     void checkBuildingUShapeRiver(){
         var expectedBoard =new ArrayList<ArrayList<Card>>();
 
-        river1.setName("1");
-        river2.setName("2");
-        river3.setName("3");
-        river4.setName("4");
-        river5.setName("5");
-        river6.setName("6");
-        river7.setName("7");
-        river8.setName("8");
         var river9 = new RiverCard();
-        river9.setName("9");
 
         expectedBoard.add(new ArrayList<>(Arrays.asList(river1,rabbit3,river9 ,bear1)));
         expectedBoard.add(new ArrayList<>(Arrays.asList(river2  ,fish1,river8,bee2)));
@@ -170,16 +139,7 @@ public class RiverCardTest extends CardTest{
     void checkBuildingPondShapeRiver(){
         var expectedBoard =new ArrayList<ArrayList<Card>>();
 
-        river1.setName("1");
-        river2.setName("2");
-        river3.setName("3");
-        river4.setName("4");
-        river5.setName("5");
-        river6.setName("6");
-        river7.setName("7");
-        river8.setName("8");
         var river9 = new RiverCard();
-        river9.setName("9");
 
         expectedBoard.add(new ArrayList<>(Arrays.asList(river1,rabbit3,river9 ,bear1)));
         expectedBoard.add(new ArrayList<>(Arrays.asList(river2  ,fish1,river8,bee2)));
