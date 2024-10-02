@@ -1,7 +1,7 @@
 package game.board;
 
-import game.Slot;
 import game.cards.Card;
+import game.cards.ElkCard;
 import game.cards.FieldCard;
 import game.exceptions.InvalidMoveException;
 import game.utils.BoardSlotProcessor;
@@ -9,17 +9,32 @@ import game.utils.BoardSlotProcessor;
 import java.util.*;
 
 public class Board {
-
     public static final int CARD_NAME_LENGTH = 11;
     private int sizeVertical = 0;
     private int sizeHorizontal = 0;
     private int maxVerticalSize = 5;
     private int maxHorizontalSize = 5;
+    private int maxRiverLength = 0;
+    private int wolfCount = 0;
+    private ArrayList<ArrayList<Card>> cardBoard = new ArrayList<>();
 
-    private Map<Card.CardType,Integer> generalPointCount= new HashMap<>();
+    public int getMaxRiverLength() {
+        return maxRiverLength;
+    }
 
-    public Board(){
-        Arrays.stream(Card.CardType.values()).forEach(cardType -> generalPointCount.put(cardType,0));
+    public void setMaxRiverLength(int maxRiverLength) {
+        this.maxRiverLength = maxRiverLength;
+    }
+
+    public int getWolfCount() {
+        return wolfCount;
+    }
+
+    public void setWolfCount(int wolfCount) {
+        this.wolfCount = wolfCount;
+    }
+
+    public Board() {
     }
 
     public void setSizeVertical(int sizeVertical) {
@@ -29,8 +44,6 @@ public class Board {
     public void setSizeHorizontal(int sizeHorizontal) {
         this.sizeHorizontal = sizeHorizontal;
     }
-
-    private ArrayList<ArrayList<Card>> cardBoard = new ArrayList<>();
 
     public int getSizeVertical() {
         return sizeVertical;
@@ -54,10 +67,11 @@ public class Board {
         }
 
     }
-    public Card getCardAtSlot(Slot slot){
-        if(slot==null) {
+
+    public Card getCardAtSlot(Slot slot) {
+        if (slot == null) {
             return null;
-        }else {
+        } else {
             return cardBoard.get(slot.coordX()).get(slot.coordY());
         }
     }
@@ -71,13 +85,16 @@ public class Board {
     }
 
     public void putCard(Card card, int coordX, int coordY) throws IndexOutOfBoundsException, InvalidMoveException {
+        if (isBoardCompleted()) {
+            throw new InvalidMoveException("Invalid move, board is already completed");
+        }
         if (cardBoard.isEmpty()) {
             initBoard();
             cardBoard.get(1).set(1, card);
             sizeVertical++;
             sizeHorizontal++;
-        } else{
-            if(cardBoard.get(coordX).get(coordY)!=null){
+        } else {
+            if (cardBoard.get(coordX).get(coordY) != null) {
                 throw new InvalidMoveException("Invalid move, slot already taken");
             }
             cardBoard.get(coordX).set(coordY, card);
@@ -99,16 +116,27 @@ public class Board {
                 checkIfMaxHorizontalAndCutBoardTo4x5();
             }
         }
+        if (isBoardCompleted()) {
+            assignNeighbours();
+            mergeRiversAndMeadows();
+        }
+
+    }
+
+    private boolean isBoardCompleted() {
+        return cardBoard.stream()
+                .flatMap(Collection::stream).filter(Objects::nonNull).count() == 20;
     }
 
     private void checkIfMaxVerticalAndCutBoardTo5x4() {
-        if(sizeVertical==maxVerticalSize) {
-            cardBoard = new ArrayList<>(cardBoard.subList(1, maxVerticalSize+1));
+        if (sizeVertical == maxVerticalSize) {
+            cardBoard = new ArrayList<>(cardBoard.subList(1, maxVerticalSize + 1));
             maxHorizontalSize = 4;
         }
     }
+
     private void checkIfMaxHorizontalAndCutBoardTo4x5() {
-        if(sizeHorizontal== maxHorizontalSize) {
+        if (sizeHorizontal == maxHorizontalSize) {
             cardBoard.replaceAll(cards -> new ArrayList<>(cards.subList(1, maxHorizontalSize + 1)));
             maxVerticalSize = 4;
         }
@@ -139,55 +167,20 @@ public class Board {
         }
     }
 
-    public void assignNeighbours(){
+
+    private void assignNeighbours() {
         var assignNeighboursStrategy = new AssignNeighboursToCardsStrategy(this);
-        BoardSlotProcessor.iterateOverBoardEntriesAndApplyStrategy(cardBoard,assignNeighboursStrategy);
+        BoardSlotProcessor.iterateOverBoardEntriesAndApplyStrategy(cardBoard, assignNeighboursStrategy);
         mergeRiversAndMeadows();
 
     }
 
-    private void mergeRiversAndMeadows(){
+    private void mergeRiversAndMeadows() {
         cardBoard.stream()
                 .flatMap(Collection::stream)
-                .filter(card -> card.getType()== Card.CardType.RIVER || card.getType() == Card.CardType.MEADOW)
-                .map(card -> (FieldCard)card)
+                .filter(card -> card.getType() == Card.CardType.RIVER || card.getType() == Card.CardType.MEADOW)
+                .map(card -> (FieldCard) card)
                 .forEach(FieldCard::mergeFieldCards);
 
-    }
-    private Integer countPointsForGivenCardTypeInGeneralPointCount(Card card){
-        var cardPoints = card.count();
-        generalPointCount.put(card.getType(),generalPointCount.get(card.getType())+cardPoints);
-        return cardPoints;
-    }
-    public int finalPointCount()
-    {
-        return cardBoard.stream()
-                .flatMap(Collection::stream)
-                .filter(this::isNotElkWolfRiver)
-                .toList().stream()
-                .reduce(0,(subtotal,card)->subtotal + countPointsForGivenCardTypeInGeneralPointCount(card),Integer::sum);
-    }
-
-    private boolean isNotElkWolfRiver(Card card){
-        return card.getType() != Card.CardType.ELK && card.getType() != Card.CardType.WOLF && card.getType() != Card.CardType.RIVER;
-    }
-    private Integer countElkPoints(){
-        //TODO
-        return 0;
-    }
-    private Integer compareRivers(){
-        //TODO
-        return 0;
-    }
-    private Integer countAndCompareWolves(){
-        //TODO
-        return 0;
-    }
-    public void endGame(){
-        assignNeighbours();
-        //TODO compare and count wolves
-        //TODO compare and count Rivers
-        //TODO count Elks
-        finalPointCount();
     }
 }

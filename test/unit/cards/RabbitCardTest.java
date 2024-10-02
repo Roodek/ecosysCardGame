@@ -2,13 +2,14 @@ package unit.cards;
 
 import game.cards.*;
 import org.junit.jupiter.api.Test;
+import unit.CardTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class RabbitCardTest extends CardTest{
+public class RabbitCardTest extends CardTest {
 
     @Test
     void testRabbitCount(){
@@ -43,7 +44,7 @@ public class RabbitCardTest extends CardTest{
         exampleBoard.add(new ArrayList<>(Arrays.asList(rabbit1,fish2 ,rabbit3  ,bear1)));
 
         setBoard(exampleBoard);
-        board.assignNeighbours();
+        assignNeighbours(board);
 
         assertEquals(1,rabbit1.count());
         assertEquals(1,rabbit2.count());

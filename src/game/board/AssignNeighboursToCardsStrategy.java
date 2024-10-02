@@ -1,8 +1,5 @@
 package game.board;
 
-import game.NeighborSlots;
-import game.Slot;
-
 
 public class AssignNeighboursToCardsStrategy implements ProcessSlotStrategy{
 

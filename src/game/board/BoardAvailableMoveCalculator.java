@@ -1,7 +1,6 @@
 package game.board;
 
 import game.utils.BoardSlotProcessor;
-import game.Slot;
 
 import java.util.Set;
 

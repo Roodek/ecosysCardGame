@@ -1,6 +1,6 @@
 package unit;
 
-import game.Slot;
+import game.board.Slot;
 import game.board.Board;
 import game.board.BoardAvailableMoveCalculator;
 import game.cards.*;
@@ -14,7 +14,6 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 
 public class BoardAvailableSlotCalculatorTest {

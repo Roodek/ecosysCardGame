@@ -1,8 +1,5 @@
 package game.board;
 
-import game.NeighborSlots;
-import game.Slot;
-
 import java.util.HashSet;
 import java.util.Set;
 

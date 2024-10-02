@@ -1,28 +1,47 @@
-package unit.cards;
+package unit;
 
+import game.board.AssignNeighboursToCardsStrategy;
 import game.board.Board;
 import game.cards.*;
+import game.utils.BoardSlotProcessor;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 
 public class CardTest {
 
-    Board board;
+    public Board board;
     @BeforeEach
     void initBoard(){
         this.board = new Board();
 
     }
 
-    void setBoard(ArrayList<ArrayList<Card>> board){
+    public void setBoard(ArrayList<ArrayList<Card>> board){
         for(var row:board){
             this.board.getCardBoard().add(row);
         }
         this.board.setSizeVertical(board.size());
         this.board.setSizeHorizontal(board.get(0).size());
+    }
+
+    protected void assignNeighbours(Board board) {
+        var assignNeighboursStrategy = new AssignNeighboursToCardsStrategy(board);
+        BoardSlotProcessor.iterateOverBoardEntriesAndApplyStrategy(board.getCardBoard(), assignNeighboursStrategy);
+        mergeRiversAndMeadows(board);
+
+    }
+
+    private void mergeRiversAndMeadows(Board board) {
+        board.getCardBoard().stream()
+                .flatMap(Collection::stream)
+                .filter(card -> card.getType() == Card.CardType.RIVER || card.getType() == Card.CardType.MEADOW)
+                .map(card -> (FieldCard) card)
+                .forEach(FieldCard::mergeFieldCards);
+
     }
 
     void initializeBasicBoardWithRiverAnd2Meadows(){

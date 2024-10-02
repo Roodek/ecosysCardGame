@@ -2,13 +2,14 @@ package unit.cards;
 
 import game.cards.*;
 import org.junit.jupiter.api.Test;
+import unit.CardTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class RiverCardTest extends CardTest{
+public class RiverCardTest extends CardTest {
 
     Card bear1 = new BearCard();
     Card bear2 = new BearCard();
@@ -44,9 +45,8 @@ public class RiverCardTest extends CardTest{
         expectedBoard.add(new ArrayList<>(Arrays.asList(rabbit1  ,rabbit2  ,rabbit3  ,rabbit4)));
 
         setBoard(expectedBoard);
-        board.assignNeighbours();//although we should assign neighbours manually, tests should be unitary and limited to test given class logic :P
+        assignNeighbours(board);//although we should assign neighbours manually, tests should be unitary and limited to test given class logic :P
 
-        board.finalPointCount();
         assertEquals(6,river1.getFieldSize());
         assertEquals(6,river2.getFieldSize());
         assertEquals(6,river4.getFieldSize());
@@ -67,9 +67,7 @@ public class RiverCardTest extends CardTest{
         expectedBoard.add(new ArrayList<>(Arrays.asList(rabbit1  ,rabbit2  ,rabbit3  ,rabbit4)));
 
         setBoard(expectedBoard);
-        board.assignNeighbours();//although we should assign neighbours manually, tests should be unitary and limited to test given class logic :P
-
-        board.finalPointCount();
+        assignNeighbours(board);
         assertEquals(6,river2.getFieldSize());
         assertEquals(6,river3.getFieldSize());
         assertEquals(6,river1.getFieldSize());
@@ -92,9 +90,7 @@ public class RiverCardTest extends CardTest{
         expectedBoard.add(new ArrayList<>(Arrays.asList(rabbit1  ,river6  ,rabbit3  ,rabbit4)));
 
         setBoard(expectedBoard);
-        board.assignNeighbours();//although we should assign neighbours manually, tests should be unitary and limited to test given class logic :P
-
-        board.finalPointCount();
+        assignNeighbours(board);
 
         assertEquals(8,river3.getFieldSize());
         assertEquals(8,river1.getFieldSize());
@@ -120,9 +116,7 @@ public class RiverCardTest extends CardTest{
         expectedBoard.add(new ArrayList<>(Arrays.asList(bee1  ,rabbit1  ,bee2  ,rabbit4)));
 
         setBoard(expectedBoard);
-        board.assignNeighbours();//although we should assign neighbours manually, tests should be unitary and limited to test given class logic :P
-
-        board.finalPointCount();
+        assignNeighbours(board);
 
         assertEquals(9,river3.getFieldSize());
         assertEquals(9,river1.getFieldSize());
@@ -148,9 +142,7 @@ public class RiverCardTest extends CardTest{
         expectedBoard.add(new ArrayList<>(Arrays.asList(bee1  ,rabbit1  ,bee2  ,rabbit4)));
 
         setBoard(expectedBoard);
-        board.assignNeighbours();//although we should assign neighbours manually, tests should be unitary and limited to test given class logic :P
-
-        board.finalPointCount();
+        assignNeighbours(board);
 
         assertEquals(6,river3.getFieldSize());
         assertEquals(6,river1.getFieldSize());

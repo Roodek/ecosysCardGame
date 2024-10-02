@@ -1,7 +1,7 @@
 package game.utils;
 
-import game.NeighborSlots;
-import game.Slot;
+import game.board.NeighborSlots;
+import game.board.Slot;
 import game.board.ProcessSlotStrategy;
 import game.cards.Card;
 

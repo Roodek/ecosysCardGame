@@ -2,6 +2,7 @@ package unit.cards;
 
 import game.cards.*;
 import org.junit.jupiter.api.Test;
+import unit.CardTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,7 +44,7 @@ public class BeeCardTest extends CardTest {
         exampleBoard.add(new ArrayList<>(Arrays.asList(rabbit1,fish2 ,rabbit3  ,bear1)));
 
         setBoard(exampleBoard);
-        board.assignNeighbours();
+        assignNeighbours(board);
 
         assertEquals(9,bee1.count());
         assertEquals(9,bee2.count());

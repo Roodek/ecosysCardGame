@@ -1,10 +1,6 @@
 package game.cards;
 
-import game.Slot;
-
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
 
 public interface Card {
     enum CardType{

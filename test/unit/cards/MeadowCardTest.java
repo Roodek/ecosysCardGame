@@ -2,6 +2,7 @@ package unit.cards;
 
 import game.cards.*;
 import org.junit.jupiter.api.Test;
+import unit.CardTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +47,7 @@ public class MeadowCardTest extends CardTest {
         exampleBoard.add(new ArrayList<>(Arrays.asList(rabbit1  ,meadow4 ,meadow3  ,meadow2)));
 
         setBoard(exampleBoard);
-        board.assignNeighbours();
+        assignNeighbours(board);
 
         assertEquals(5,meadow1.getFieldSize());
         assertEquals(5, meadow2.getFieldSize());
