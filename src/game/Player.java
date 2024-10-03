@@ -13,14 +13,42 @@ public class Player {
 
     private Integer numberOfGaps = 0;
     private Integer sumOfPoints = 0;
-
     private Integer ecosystemGapPoints = 0;
-    private List<Player> players;
 
     private Map<Card.CardType, Integer> generalPointCount = new HashMap<>();
 
+    public Map<Card.CardType, Integer> getGeneralPointCount() {
+        return generalPointCount;
+    }
+    public Board getBoard() {
+        return board;
+    }
+
+    public Integer getNumberOfGaps() {
+        return numberOfGaps;
+    }
+
+    public void setNumberOfGaps(Integer numberOfGaps) {
+        this.numberOfGaps = numberOfGaps;
+    }
+
+    public Integer getSumOfPoints() {
+        return sumOfPoints;
+    }
+
+    public void setSumOfPoints(Integer sumOfPoints) {
+        this.sumOfPoints = sumOfPoints;
+    }
+
+    public Integer getEcosystemGapPoints() {
+        return ecosystemGapPoints;
+    }
+
+    public void setEcosystemGapPoints(Integer ecosystemGapPoints) {
+        this.ecosystemGapPoints = ecosystemGapPoints;
+    }
+
     public Player(List<Player> players){
-        this.players = players;
         this.board = new Board();
         Arrays.stream(Card.CardType.values()).forEach(cardType -> generalPointCount.put(cardType, 0));
     }
