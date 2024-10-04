@@ -20,6 +20,18 @@ public class GameTable {
         player.getGeneralPointCount().put(card.getType(), player.getGeneralPointCount().get(card.getType()) + cardPoints);
     }
 
+    public List<Player> endGame() {
+        players.forEach(player -> {
+            countAllCardPointsAndPutThemToGeneralPointCount(player);
+        });
+        compareWolvesAndAssignPoints();
+        compareRiversAndAssignPoints();
+        return players.stream().peek(player -> {
+            countEcosystemGapsPoints(player);
+            sumAllPoints(player);
+        }).toList();
+    }
+
     public void countAllCardPointsAndPutThemToGeneralPointCount(Player player) {
         for (var card : player.getBoard().getCardBoard().stream()
                 .flatMap(Collection::stream).toList()) {
@@ -37,8 +49,6 @@ public class GameTable {
             }
         }
         countElkPoints(player);
-        compareWolvesAndAssignPoints();
-        compareRiversAndAssignPoints();
     }
 
     private void countElkPoints(Player player) {
@@ -47,7 +57,7 @@ public class GameTable {
                         .anyMatch(card -> card.getType() == Card.CardType.ELK)
                 ).count();
         var columnsWithAtLeast1Elk = 0;
-        for (var y = 0; y < player.getBoard().getSizeVertical(); y++) {
+        for (var y = 0; y < player.getBoard().getSizeHorizontal(); y++) {
             if (getColumn(player.getBoard(), y).stream().anyMatch(card -> card.getType() == Card.CardType.ELK)) {
                 columnsWithAtLeast1Elk++;
             }
@@ -74,10 +84,9 @@ public class GameTable {
     }
 
     private Map<Integer, List<Player>> getRewardedPointsForRankedCard(Card.CardType cardType, Integer podiumPLaces) {
-
         var playersGroupedByNumberOfRankedCards = players.stream()
-                .sorted(Comparator.comparing(player -> getWolfOfRiverCount(player, cardType), Comparator.reverseOrder()))
-                .collect(Collectors.groupingBy(player -> getWolfOfRiverCount(player, cardType)));
+                .sorted(Comparator.comparing(player -> getWolfOrRiverCount(player, cardType), Comparator.reverseOrder()))
+                .collect(Collectors.groupingBy(player -> getWolfOrRiverCount(player, cardType),LinkedHashMap::new,Collectors.toList()));
 
         var podium = new HashMap<Integer, List<Player>>();
         playersGroupedByNumberOfRankedCards.values().forEach(playersGroupedByCardCount -> {
@@ -88,7 +97,7 @@ public class GameTable {
         return Map.copyOf(podium);
     }
 
-    private int getWolfOfRiverCount(Player player, Card.CardType type) {
+    private int getWolfOrRiverCount(Player player, Card.CardType type) {
         if (type == Card.CardType.RIVER) {
             return player.getBoard().getMaxRiverLength();
         } else if (type == Card.CardType.WOLF) {
@@ -108,9 +117,7 @@ public class GameTable {
             case 5 -> player.setEcosystemGapPoints(0);
             default -> player.setEcosystemGapPoints(-5);
         }
-        ;
     }
-
 
     private void sumAllPoints(Player player) {
         player.setSumOfPoints(
@@ -119,11 +126,4 @@ public class GameTable {
         );
     }
 
-    public void endGame() {
-        players.forEach(player -> {
-            countAllCardPointsAndPutThemToGeneralPointCount(player);
-            countEcosystemGapsPoints(player);
-            sumAllPoints(player);
-        });
-    }
 }

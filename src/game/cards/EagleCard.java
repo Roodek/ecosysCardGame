@@ -61,7 +61,7 @@ public class EagleCard extends BasicCard implements Card  {
     }
     private void checkCardsBelowAndAddThemToSet(Set<Card> cards) {
         if(isFishOrRabbit(getBottomNeighbour())){
-            cards.add(getUpperNeighbour());
+            cards.add(getBottomNeighbour());
         }
         if(isFishOrRabbit(getBottomNeighbour().getBottomNeighbour())){
             cards.add(getBottomNeighbour().getBottomNeighbour());

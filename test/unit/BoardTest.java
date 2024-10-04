@@ -2,6 +2,7 @@ package unit;
 
 
 import game.board.Board;
+import game.board.Slot;
 import game.cards.*;
 import game.exceptions.InvalidMoveException;
 import org.junit.jupiter.api.AfterEach;
@@ -11,9 +12,10 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
 
@@ -166,6 +168,55 @@ class BoardTest {
         expectedBoard2.add(new ArrayList<>(Arrays.asList(null,null,null,wolf)));
 
         assertEquals(expectedBoard2,board.getCardBoard());
+        Card rabbit = new RabbitCard();
+        board.putCard(rabbit,2,2);
+        board.rabbitSwap(new Slot(2,2),new Slot(2,3));
+
+        var expectedBoard3 = new ArrayList<ArrayList<Card>>();
+        expectedBoard3.add(new ArrayList<>(Arrays.asList(fish,dragonfly,meadow,fox)));
+        expectedBoard3.add(new ArrayList<>(Arrays.asList(null,null,null,elk)));
+        expectedBoard3.add(new ArrayList<>(Arrays.asList(null,null,bee,rabbit)));
+        expectedBoard3.add(new ArrayList<>(Arrays.asList(null,null,null,river)));
+        expectedBoard3.add(new ArrayList<>(Arrays.asList(null,null,null,wolf)));
+
+        assertEquals(expectedBoard3,board.getCardBoard());
+
+    }
+    @Test
+    void testSwapCards() throws InvalidMoveException {
+        var wolf = new WolfCard();
+        var river = new RiverCard();
+        var bee = new BeeCard();
+        var elk = new ElkCard();
+        var fox = new FoxCard();
+
+        var meadow = new MeadowCard();
+        var dragonfly = new DragonflyCard();
+        var fish= new FishCard();
+        var rabbit = new RabbitCard();
+
+        board.putFirstCard(wolf);
+        board.putCard(river,0,1);
+        board.putCard(bee,0,1);
+        board.putCard(elk,0,1);
+        board.putCard(fox,0,1);
+        board.putCard(meadow,0,0);
+        board.putCard(dragonfly,0,0);
+        board.putCard(fish,0,0);
+
+        board.putCard(rabbit,2,2);
+        board.printBoard();
+
+        board.rabbitSwap(new Slot(2,2),new Slot(2,3));
+
+        var expectedBoard3 = new ArrayList<ArrayList<Card>>();
+        expectedBoard3.add(new ArrayList<>(Arrays.asList(fish,dragonfly,meadow,fox)));
+        expectedBoard3.add(new ArrayList<>(Arrays.asList(null,null,null,elk)));
+        expectedBoard3.add(new ArrayList<>(Arrays.asList(null,null,bee,rabbit)));
+        expectedBoard3.add(new ArrayList<>(Arrays.asList(null,null,null,river)));
+        expectedBoard3.add(new ArrayList<>(Arrays.asList(null,null,null,wolf)));
+
+        assertEquals(expectedBoard3,board.getCardBoard());
     }
 
     @Test
@@ -215,13 +266,46 @@ class BoardTest {
         board.putCard(eagle1,3,4);
 
         var expectedBoard =new ArrayList<ArrayList<Card>>();
-        expectedBoard.add(new ArrayList<>(Arrays.asList(fox1,elk1,wolf1,river1,fox2)));
-        expectedBoard.add(new ArrayList<>(Arrays.asList(meadow1,meadow2,river2,river3,river4)));
-        expectedBoard.add(new ArrayList<>(Arrays.asList(meadow3,bee1,bear1,fish1,dragonfly1)));
-        expectedBoard.add(new ArrayList<>(Arrays.asList(meadow4,wolf2,wolf3,rabbit1,eagle1)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(fox1   ,elk1   ,wolf1 ,river1 ,fox2)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(meadow1,meadow2,river2,river3 ,river4)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(meadow3,bee1   ,bear1 ,fish1  ,dragonfly1)));
+        expectedBoard.add(new ArrayList<>(Arrays.asList(meadow4,wolf2  ,wolf3 ,rabbit1,eagle1)));
 
         assertEquals(expectedBoard,board.getCardBoard());
 
+        verifyCardNeighbours(fox1,null,meadow1,null,elk1);
+        verifyCardNeighbours(elk1, null, meadow2, fox1, wolf1);
+        verifyCardNeighbours(wolf1, null,river2, elk1, river1);
+        verifyCardNeighbours(river1, null, river3,wolf1,fox2);
+        verifyCardNeighbours(fox2, null, river4,river1,null);
+
+        verifyCardNeighbours(meadow1, fox1,meadow3,null,meadow2);
+        verifyCardNeighbours(meadow2,elk1,bee1,meadow1,river2);
+        verifyCardNeighbours(river2, wolf1,bear1,meadow2,river3);
+        verifyCardNeighbours(river3, river1,fish1,river2,river4);
+        verifyCardNeighbours(river4, fox2,dragonfly1,river3,null);
+
+        verifyCardNeighbours(meadow3, meadow1, meadow4,null,bee1);
+        verifyCardNeighbours(bee1, meadow2,wolf2,meadow3,bear1);
+        verifyCardNeighbours(bear1, river2,wolf3,bee1,fish1);
+        verifyCardNeighbours(fish1, river3,rabbit1,bear1,dragonfly1);
+        verifyCardNeighbours(dragonfly1, river4,eagle1,fish1,null);
+
+        verifyCardNeighbours(meadow4,meadow3,null,null, wolf2);
+        verifyCardNeighbours(wolf2, bee1, null,meadow4,wolf3);
+        verifyCardNeighbours(wolf3, bear1,null,wolf2,rabbit1);
+        verifyCardNeighbours(rabbit1, fish1,null,wolf3,eagle1);
+        verifyCardNeighbours(eagle1,dragonfly1,null,rabbit1,null);
+
+    }
+
+
+    private static void verifyCardNeighbours(Card targetCard, Card upper, Card bottom,Card left, Card right) {
+        assertEquals(Stream.of(upper,bottom,left,right).filter(Objects::nonNull).toList().size(), targetCard.getNeighbours().size());
+        assertEquals(upper, targetCard.getUpperNeighbour());
+        assertEquals(bottom, targetCard.getBottomNeighbour());
+        assertEquals(left, targetCard.getLeftNeighbour());
+        assertEquals(right, targetCard.getRightNeighbour());
 
     }
 }
