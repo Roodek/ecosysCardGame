@@ -34,8 +34,7 @@ public class Board {
         this.wolfCount = wolfCount;
     }
 
-    public Board() {
-    }
+    public Board() {}
 
     public void setSizeVertical(int sizeVertical) {
         this.sizeVertical = sizeVertical;
@@ -123,6 +122,12 @@ public class Board {
 
     }
 
+    public void rabbitSwap(Slot card1,Slot card2){
+        Card cardAtFirstSlot = getCardAtSlot(card1);
+        cardBoard.get(card1.coordX()).set(card1.coordY(),getCardAtSlot(card2));
+        cardBoard.get(card2.coordX()).set(card2.coordY(),cardAtFirstSlot);
+    }
+
     private boolean isBoardCompleted() {
         return cardBoard.stream()
                 .flatMap(Collection::stream).filter(Objects::nonNull).count() == 20;
@@ -166,7 +171,6 @@ public class Board {
             }
         }
     }
-
 
     private void assignNeighbours() {
         var assignNeighboursStrategy = new AssignNeighboursToCardsStrategy(this);

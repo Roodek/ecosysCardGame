@@ -1,5 +1,6 @@
 package unit;
 
+import game.Player;
 import game.board.AssignNeighboursToCardsStrategy;
 import game.board.Board;
 import game.cards.*;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 public class CardTest {
 
@@ -26,6 +26,14 @@ public class CardTest {
         }
         this.board.setSizeVertical(board.size());
         this.board.setSizeHorizontal(board.get(0).size());
+    }
+    public void setBoardAndAssignNeighbours(Player player, ArrayList<ArrayList<Card>> board){
+        for(var row:board){
+            player.getBoard().getCardBoard().add(row);
+        }
+        player.getBoard().setSizeVertical(board.size());
+        player.getBoard().setSizeHorizontal(board.get(0).size());
+        assignNeighbours(player.getBoard());
     }
 
     protected void assignNeighbours(Board board) {
