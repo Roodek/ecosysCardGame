@@ -9,6 +9,7 @@ import java.util.*;
 
 public class Player {
 
+    private List<Card> hand;
     private String name;
     private Board board;
 
@@ -17,6 +18,10 @@ public class Player {
     private Integer ecosystemGapPoints = 0;
 
     private Map<Card.CardType, Integer> generalPointCount = new HashMap<>();
+
+    public void setHand(List<Card> hand) {
+        this.hand = hand;
+    }
 
     public Player(String name, Board board){
         this.name = name;

@@ -53,8 +53,19 @@ public class CardStack {
 
     public static Card dealCard(List<Card> cards){
         var poppedCard = cards.get(0);
-       cards.remove(cards.get(0));
-       return poppedCard;
-    };
+        cards.remove(cards.get(0));
+        return poppedCard;
+    }
+
+    public static List<Card> dealFirstHandFromStack(List<Card> cards){
+        var hand = List.copyOf(cards.subList(0,11));
+        cards.removeAll(hand);
+        return hand;
+    }
+    public static List<Card> dealSecondHandFromStack(List<Card> cards){
+        var hand = List.copyOf(cards.subList(0,10));
+        cards.removeAll(hand);
+        return hand;
+    }
 
 }
